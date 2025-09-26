@@ -486,7 +486,7 @@ proxy-groups:
   - "\U0001F41F 遵循规则"
   - "\U0001F3AF 全球直连"
 - name: "\U0001F1ED\U0001F1F0 香港节点"
-  type: smart
+  type: url-test
   url: https://www.gstatic.com/generate_204
   filter: "(?i)(港|HK|Hong Kong|HongKong|深港|\U0001F1ED\U0001F1F0)"
   use:
@@ -496,7 +496,7 @@ proxy-groups:
   uselightgbm: true
   strategy: sticky-sessions
 - name: "\U0001F1FA\U0001F1F8 美国节点"
-  type: smart
+  type: url-test
   url: https://www.gstatic.com/generate_204
   filter: "(?i)(美|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|US|United States|UnitedStates|\U0001F1FA\U0001F1F8)"
   use:
@@ -506,7 +506,7 @@ proxy-groups:
   uselightgbm: true
   strategy: sticky-sessions
 - name: "\U0001F1EF\U0001F1F5 日本节点"
-  type: smart
+  type: url-test
   url: https://www.gstatic.com/generate_204
   filter: "(?i)(日本|川日|东京|大阪|泉日|埼玉|沪日|深日|(?<!尼|-)日|JP|Japan|\U0001F1EF\U0001F1F5)"
   use:
@@ -516,7 +516,7 @@ proxy-groups:
   uselightgbm: true
   strategy: sticky-sessions
 - name: "\U0001F1F8\U0001F1EC 新加坡节点"
-  type: smart
+  type: url-test
   url: https://www.gstatic.com/generate_204
   filter: "(?i)(新加坡|坡|狮城|SG|Singapore|\U0001F1F8\U0001F1EC)"
   use:
@@ -526,7 +526,7 @@ proxy-groups:
   uselightgbm: true
   strategy: sticky-sessions
 - name: "\U0001F1FC\U0001F1F8 台湾节点"
-  type: smart
+  type: url-test
   url: https://www.gstatic.com/generate_204
   filter: "(?i)(台|新北|彰化|TW|Taiwan|\U0001F1F9\U0001F1FC)"
   use:
@@ -537,7 +537,7 @@ proxy-groups:
   strategy: sticky-sessions
 
 - name: "\U0001F310 其他地区"
-  type: smart
+  type: url-test
   url: https://www.gstatic.com/generate_204
   filter: "^(?!.*(港|HK|hk|Hong Kong|HongKong|hongkong|深港|美|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|US|United States|UnitedStates|日本|川日|东京|大阪|泉日|埼玉|沪日|深日|(?<!尼|-)日|JP|Japan|\U0001F1EF\U0001F1F5|新加坡|坡|狮城|SG|Singapore|台|新北|彰化|TW|Taiwan|DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB)).*$"
   use:
