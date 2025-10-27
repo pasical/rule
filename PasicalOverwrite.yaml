@@ -313,7 +313,17 @@ proxy-groups:
   url: https://cp.cloudflare.com/generate_204
   interval: 300
   use:
-  - main-provider
+  - main-provider  
+- name: "\U0001F53D Fallback"
+  type: fallback
+  url: https://www.gstatic.com/generate_204
+  proxies:
+  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
+  use:
+  - fallback-provider
+  interval: 30
+  tolerance: 50
+  lazy: true
 
 - name: "\U0001F680 GitHub"
   type: select
@@ -391,7 +401,6 @@ proxy-groups:
   - "\U0001F6A9 台湾节点"
   - "PROXY"
   - "DIRECT"
-
 
 - name: "\U0001F4E2 谷歌FCM"
   type: select
@@ -564,13 +573,6 @@ proxy-groups:
   tolerance: 100
   uselightgbm: true
   strategy: sticky-sessions
-- name: "\U0001F53D Fallback"
-  type: select
-  proxies:
-  - "DIRECT"
-  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
-  use:
-  - fallback-provider
 - name: "\U0001F3AF 全球直连"
   type: select
   url: https://www.gstatic.com/generate_204
@@ -582,39 +584,48 @@ proxy-groups:
   proxies:
   - "\U0001F41F 漏网之鱼"
 rules:
-- DOMAIN-SUFFIX,mp1.i9idc.com,DIRECT
-- DOMAIN-KEYWORD,rmmc,DIRECT
-- DOMAIN-KEYWORD,aabao,DIRECT
-- DOMAIN-SUFFIX,axiom.moulberry.com,DIRECT
-- DOMAIN-KEYWORD,onedrive,DIRECT
-- GEOSITE,category-public-tracker,DIRECT
-- "GEOSITE,private,\U0001F3AF 全球直连"
-- "GEOIP,private,\U0001F3AF 全球直连,no-resolve"
-- "RULE-SET,Custom_Direct,\U0001F3AF 全球直连"
 - "RULE-SET,Custom_Proxy,PROXY"
-- "GEOSITE,google-cn,\U0001F3AF 全球直连"
-- "GEOSITE,category-games@cn,\U0001F3AF 全球直连"
+- "RULE-SET,Custom_Direct,\U0001F3AF 全球直连"
 - "RULE-SET,Steam_CDN,\U0001F3AF 全球直连"
-- "GEOSITE,category-game-platforms-download,\U0001F3AF 全球直连"
-- "GEOSITE,category-public-tracker,\U0001F3AF 全球直连"
+- "RULE-SET,Custom_Port_Direct,\U0001F500 非标端口"
+
+# GEOIP / GEOSITE rules (grouped)
+- "GEOIP,private,\U0001F3AF 全球直连,no-resolve"
+- "GEOSITE,private,\U0001F3AF 全球直连"
+- "GEOIP,google,\U0001F1EC 谷歌服务,no-resolve"
+- "GEOIP,cn,\U0001F3AF 全球直连,no-resolve"
+- "GEOSITE,google-cn,\U0001F3AF 全球直连"
+- "GEOSITE,cn,\U0001F3AF 全球直连"
+
+# Service-specific geosite groups (preferential routing)
 - "GEOSITE,openai,\U0001F916 ChatGPT"
 - "GEOSITE,bing,\U0001F916 Copilot"
 - "GEOSITE,category-ai-!cn,\U0001F916 AI服务"
 - "GEOSITE,github,\U0001F680 GitHub"
-- "GEOSITE,category-speedtest,\U0001F680 测速工具"
-- "GEOSITE,steam,\U0001F3AE Steam"
-- "GEOSITE,apple,\U0001F34E 苹果服务"
-- GEOSITE,microsoft,Ⓜ️ 微软服务
 - "GEOSITE,googlefcm,\U0001F4E2 谷歌FCM"
 - "GEOSITE,google,\U0001F1EC 谷歌服务"
 - "GEOSITE,spotify,\U0001F3BB Spotify"
 - "GEOSITE,bahamut,\U0001F4FA Bahamut"
+- "GEOSITE,apple,\U0001F34E 苹果服务"
+- GEOSITE,microsoft,Ⓜ️ 微软服务
+- "GEOSITE,steam,\U0001F3AE Steam"
+- "GEOSITE,category-speedtest,\U0001F680 测速工具"
 - "GEOSITE,category-games,\U0001F3AE 游戏平台"
+- "GEOSITE,category-games@cn,\U0001F3AF 全球直连"
+- "GEOSITE,category-game-platforms-download,\U0001F3AF 全球直连"
+- "GEOSITE,category-public-tracker,\U0001F3AF 全球直连"
+- "GEOSITE,google-cn,\U0001F3AF 全球直连"
 - "GEOSITE,gfw,PROXY"
-- "GEOIP,google,\U0001F1EC 谷歌服务,no-resolve"
-- "GEOSITE,cn,\U0001F3AF 全球直连"
-- "GEOIP,cn,\U0001F3AF 全球直连,no-resolve"
-- "RULE-SET,Custom_Port_Direct,\U0001F500 非标端口"
+
+# Domain / keyword specific rules
+- DOMAIN-SUFFIX,mp1.i9idc.com,DIRECT
+- DOMAIN-SUFFIX,axiom.moulberry.com,DIRECT
+- DOMAIN-KEYWORD,rmmc,DIRECT
+- DOMAIN-KEYWORD,aabao,DIRECT
+- DOMAIN-KEYWORD,onedrive,DIRECT
+- GEOSITE,category-public-tracker,DIRECT
+
+# Process-based direct rules (P2P / local tools)
 - PROCESS-NAME,aria2c,DIRECT
 - PROCESS-NAME,BitComet,DIRECT
 - PROCESS-NAME,fdm,DIRECT
@@ -640,8 +651,11 @@ rules:
 - PROCESS-NAME,singbox,DIRECT
 - PROCESS-NAME,UUBooster,DIRECT
 - PROCESS-NAME,uugamebooster,DIRECT
+
+# Destination ports (special handling)
 - "DST-PORT,80,\U0001F41F 漏网之鱼"
 - "DST-PORT,443,\U0001F41F 漏网之鱼"
+
 - MATCH,DIRECT
 rule-providers:
   Custom_Port_Direct:
