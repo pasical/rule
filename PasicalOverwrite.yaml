@@ -589,14 +589,6 @@ rules:
 - "RULE-SET,Steam_CDN,\U0001F3AF 全球直连"
 - "RULE-SET,Custom_Port_Direct,\U0001F500 非标端口"
 
-# GEOIP / GEOSITE rules (grouped)
-- "GEOIP,private,\U0001F3AF 全球直连,no-resolve"
-- "GEOSITE,private,\U0001F3AF 全球直连"
-- "GEOIP,google,\U0001F1EC 谷歌服务,no-resolve"
-- "GEOIP,cn,\U0001F3AF 全球直连,no-resolve"
-- "GEOSITE,google-cn,\U0001F3AF 全球直连"
-- "GEOSITE,cn,\U0001F3AF 全球直连"
-
 # Service-specific geosite groups (preferential routing)
 - "GEOSITE,openai,\U0001F916 ChatGPT"
 - "GEOSITE,bing,\U0001F916 Copilot"
@@ -618,12 +610,21 @@ rules:
 - "GEOSITE,gfw,PROXY"
 
 # Domain / keyword specific rules
+- DOMAIN-SUFFIX,dl.google.com,PROXY
 - DOMAIN-SUFFIX,mp1.i9idc.com,DIRECT
 - DOMAIN-SUFFIX,axiom.moulberry.com,DIRECT
 - DOMAIN-KEYWORD,rmmc,DIRECT
 - DOMAIN-KEYWORD,aabao,DIRECT
 - DOMAIN-KEYWORD,onedrive,DIRECT
 - GEOSITE,category-public-tracker,DIRECT
+
+# GEOIP / GEOSITE rules (grouped)
+- "GEOIP,private,\U0001F3AF 全球直连,no-resolve"
+- "GEOIP,cn,\U0001F3AF 全球直连,no-resolve"
+- "GEOSITE,private,\U0001F3AF 全球直连"
+- "GEOSITE,google-cn,\U0001F3AF 全球直连"
+- "GEOSITE,cn,\U0001F3AF 全球直连"
+- "GEOIP,google,\U0001F1EC 谷歌服务,no-resolve"
 
 # Process-based direct rules (P2P / local tools)
 - PROCESS-NAME,aria2c,DIRECT
