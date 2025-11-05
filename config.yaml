@@ -1,0 +1,360 @@
+proxy-providers:
+  main-provider:
+    type: file
+    path: ./proxy_provider/main-provider.yaml
+
+  fallback-provider:
+    type: file
+    path: ./proxy_provider/fallback-provider.yaml
+
+  temp-provider:
+    type: file
+    path: ./proxy_provider/temp-provider.yaml
+
+mixed-port: 7890
+redir-port: 7891
+tproxy-port: 1536
+ipv6: true
+mode: Rule
+allow-lan: true
+disable-keep-alive: true
+geodata-mode: false
+geo-auto-update: true
+geo-update-interval: 24
+geox-url:
+  geoip: https://testingcf.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geoip.dat
+  geosite: https://testingcf.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geosite.dat
+  asn: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
+unified-delay: true
+tcp-concurrent: true
+log-level: silent
+find-process-mode: always
+global-client-fingerprint: chrome
+external-controller: 0.0.0.0:9090
+external-ui-url: "https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip"
+external-ui: "./WebUI/Zashboard"
+
+F: &F
+  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
+
+A: &A
+  use:
+    - main-provider
+  interval: 180
+  tolerance: 100
+  uselightgbm: true
+  strategy: sticky-sessions
+
+profile:
+  store-selected: true
+  store-fake-ip: true
+
+sniffer:
+  enable: true
+  force-dns-mapping: true
+  parse-pure-ip: true
+  override-destination: true
+  sniff:
+    HTTP:
+      ports: [80, 8080-8880]
+    TLS:
+      ports: [443, 5228, 8443]
+    QUIC:
+      ports: [443, 8443]
+  force-domain:
+    - "+.v2ex.com"
+  skip-domain:
+    - "Mijia Cloud"
+
+tun:
+  enable: true
+  device: Meta
+  stack: gvisor
+  dns-hijack:
+    - any:53
+    - tcp://any:53
+  udp-timeout: 300
+  auto-route: true
+  strict-route: true #！
+  auto-redirect: false
+  auto-detect-interface: true
+
+dns:
+  enable: true
+  ipv6: true
+  listen: 0.0.0.0:1053
+  enhanced-mode: fake-ip
+  fake-ip-range: 172.20.0.1/16
+  fake-ip-filter:
+    - "GEOSITE:cn"
+    - "GEOSITE:private"
+    - "GEOSITE:googlefcm"
+    - "+.3gppnetwork.org"
+    - "+.xtracloud.net"
+    - "+.market.xiaomi.com"
+  proxy-server-nameserver:
+    - https://1.12.12.12:443/dns-query#DIRECT&h3=false
+    - https://120.53.53.53:443/dns-query#DIRECT&h3=false
+    - https://223.5.5.5:443/dns-query#DIRECT&h3=true
+    - https://223.6.6.6:443/dns-query#DIRECT&h3=true
+  nameserver-policy:
+    "GEOSITE:cn,microsoft,apple":
+      - https://1.12.12.12:443/dns-query#DIRECT&h3=false
+      - https://120.53.53.53:443/dns-query#DIRECT&h3=false
+      - https://223.5.5.5:443/dns-query#DIRECT&h3=true
+      - https://223.6.6.6:443/dns-query#DIRECT&h3=true
+  nameserver:
+    # Google
+    - https://8.8.8.8:443/dns-query#PROXY&h3=true
+    - https://8.8.4.4:443/dns-query#PROXY&h3=true
+    # Cloudflare
+    - https://1.1.1.1:443/dns-query#PROXY&h3=true
+    - https://1.0.0.1:443/dns-query#PROXY&h3=true
+  direct-nameserver:
+    # 腾讯/阿里兜底
+    # 正确配置本地后可移除 否则会卡[可选]
+    - 1.12.12.12
+    - 223.6.6.6
+    # ----------------
+    # 你的本地
+    # 各大路由器默认 DNS（模板示例）
+    - 192.168.0.1    # TP-Link / Tenda / 部分 Netgear
+    - 192.168.1.1    # 华为 / H3C / 三网运营 / Linksys
+    - 192.168.3.1    # 华为 / 荣耀
+    - 192.168.10.1   # 部分光猫（电信/联通）
+    - 192.168.31.1   # 小米 / Redmi
+    - 192.168.50.1   # 华硕（ASUS）
+    - 192.168.100.1  # 移动光猫
+    - 192.168.110.1  # 锐捷（Ruijie）
+    - 10.0.0.1       # 部分企业网 / Ruijie / H3C
+    - 10.1.1.1       # 企业级路由常见网关
+    - 192.168.66.1
+
+proxies:
+  - {name: LOCAL_DIRECT, type: direct, udp: true}
+  - {name: LOCAL_REJECT, type: reject}
+  - {name: DNS_Hijack, type: dns}
+
+proxy_groups: &proxy_groups
+    type: select
+    proxies:
+      - PROXY
+      - "\U0001F1ED\U0001F1F0 HK"
+      - "\U0001F1FA\U0001F1F8 US"
+      - "\U0001F1F8\U0001F1EC SG"
+      - "\U0001F1EF\U0001F1F5 JP"
+      - "\U0001F6A9 TW"
+      - "\U0001F310 Others"
+      - REJECT
+      - DIRECT
+    <<: *F
+
+proxy-groups:
+- name: "PROXY"
+  type: select
+  proxies:
+    - "Auto"
+    - "\U0001F53D Fallback"
+    - "\U0001F1ED\U0001F1F0 HK"
+    - "\U0001F1FA\U0001F1F8 US"
+    - "\U0001F1F8\U0001F1EC SG"
+    - "\U0001F1EF\U0001F1F5 JP"
+    - "\U0001F6A9 TW"
+    - "\U0001F310 Others"
+    - DIRECT
+  <<: *F
+  use:
+  - main-provider
+
+- name: "Auto"
+  type: url-test
+  url: https://www.gstatic.com/generate_204
+  proxies:
+  filter: "(?i)(新加坡|坡|狮城|SG|Singapore|\U0001F1F8\U0001F1EC|港|HK|Hong Kong|HongKong|深港|\U0001F1ED\U0001F1F0)"
+  use:
+  - main-provider
+  interval: 300
+  tolerance: 50
+
+- name: "⏬️ Heavy"
+  type: select
+  proxies:
+    - "\U0001F53D Fallback"
+    - DIRECT
+  <<: *F
+  use:
+  - main-provider
+  - fallback-provider
+  - temp-provider
+
+- name: "\U0001F53D Fallback"
+  type: fallback
+  url: https://www.gstatic.com/generate_204
+  proxies:
+  filter: "(?i)(新加坡|坡|狮城|SG|Singapore|\U0001F1F8\U0001F1EC|港|HK|Hong Kong|HongKong|深港|\U0001F1ED\U0001F1F0)"
+  use:
+  - fallback-provider
+  - temp-provider
+  interval: 120
+  tolerance: 50
+  lazy: true
+
+- name: "\U0001F680 GitHub"
+  <<: *proxy_groups
+
+- name: "\U0001F916 AI"
+  <<: *proxy_groups
+  use:
+  - main-provider
+  - fallback-provider
+  - temp-provider
+
+- name: "\U0001F916 Bing"
+  <<: *proxy_groups
+
+- name: "\U0001F3BB Spotify"
+  <<: *proxy_groups
+
+- name: "\U0001F4FA Bahamut"
+  type: select
+  proxies:
+  - "\U0001F6A9 TW"
+  - "PROXY"
+  - "DIRECT"
+
+- name: "\U0001F4E2 FCM"
+  <<: *proxy_groups
+
+- name: "Ⓜ️ Microsoft"
+  <<: *proxy_groups
+
+- name: "\U0001F3AE Game"
+  <<: *proxy_groups
+
+- name: "\U0001F500 Special Port"
+  type: select
+  proxies:
+  - DIRECT
+  - PROXY
+
+- name: "\U0001F1ED\U0001F1F0 HK"
+  type: url-test
+  url: https://www.gstatic.com/generate_204
+  filter: "(?i)(港|HK|Hong Kong|HongKong|深港|\U0001F1ED\U0001F1F0)"
+  <<: *A
+
+- name: "\U0001F1FA\U0001F1F8 US"
+  type: url-test
+  url: https://www.gstatic.com/generate_204
+  filter: "(?i)(美|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|US|United States|UnitedStates|\U0001F1FA\U0001F1F8)"
+  <<: *A
+
+- name: "\U0001F1EF\U0001F1F5 JP"
+  type: url-test
+  url: https://www.gstatic.com/generate_204
+  filter: "(?i)(日本|川日|东京|大阪|泉日|埼玉|沪日|深日|(?<!尼|-)日|JP|Japan|\U0001F1EF\U0001F1F5)"
+  <<: *A
+
+- name: "\U0001F1F8\U0001F1EC SG"
+  type: url-test
+  url: https://www.gstatic.com/generate_204
+  filter: "(?i)(新加坡|坡|狮城|SG|Singapore|\U0001F1F8\U0001F1EC)"
+  <<: *A
+
+- name: "\U0001F6A9 TW"
+  type: url-test
+  url: https://www.gstatic.com/generate_204
+  filter: "(?i)(台|新北|彰化|TW|Taiwan|\U0001F1F9\U0001F1FC)"
+  <<: *A
+
+- name: "\U0001F310 Others"
+  type: url-test
+  url: https://www.gstatic.com/generate_204
+  filter: "^(?!.*(港|HK|hk|Hong Kong|HongKong|hongkong|深港|美|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|US|United States|UnitedStates|日本|川日|东京|大阪|泉日|埼玉|沪日|深日|(?<!尼|-)日|JP|Japan|\U0001F1EF\U0001F1F5|新加坡|坡|狮城|SG|Singapore|台|新北|彰化|TW|Taiwan|DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB)).*$"
+  <<: *A
+
+- name: "MATCH"
+  type: select
+  proxies:
+  - PROXY
+  - DIRECT
+
+- name: "\U0001F3AF DIRECT"
+  type: select
+  url: https://www.gstatic.com/generate_204
+  proxies:
+  - DIRECT
+
+rule-providers:
+  Custom_Port_Direct:
+    behavior: classical
+    interval: 10800
+    path: "./rule_provider/Custom_Port_Direct.yaml"
+    type: http
+    url: https://testingcf.jsdelivr.net/gh/Aethersailor/Custom_OpenClash_Rules@main/rule/Custom_Port_Direct.yaml
+    proxy: DIRECT
+  Custom_Direct:
+    behavior: classical
+    interval: 10800
+    path: "./rule_provider/Custom_Direct_Classical.yaml"
+    type: http
+    url: https://testingcf.jsdelivr.net/gh/Aethersailor/Custom_OpenClash_Rules@main/rule/Custom_Direct_Classical.yaml
+    proxy: DIRECT
+  Custom_Proxy:
+    behavior: classical
+    interval: 10800
+    path: "./rule_provider/Custom_Proxy_Classical.yaml"
+    type: http
+    url: https://testingcf.jsdelivr.net/gh/Aethersailor/Custom_OpenClash_Rules@main/rule/Custom_Proxy_Classical.yaml
+    proxy: DIRECT
+  Steam_CDN:
+    behavior: classical
+    interval: 10800
+    path: "./rule_provider/Steam_CDN_Classical.yaml"
+    type: http
+    url: https://testingcf.jsdelivr.net/gh/Aethersailor/Custom_OpenClash_Rules@main/rule/Steam_CDN_Classical.yaml
+    proxy: DIRECT
+
+rules:
+  - DST-PORT,53,DNS_Hijack
+  - DST-PORT,853,PROXY
+
+  - "RULE-SET,Custom_Proxy,PROXY"
+  - "RULE-SET,Custom_Direct,\U0001F3AF DIRECT"
+  - "RULE-SET,Steam_CDN,\U0001F3AF DIRECT"
+  - "RULE-SET,Custom_Port_Direct,\U0001F500 Special Port"
+
+  # Service-specific geosite groups (preferential routing)
+  - "GEOSITE,openai,\U0001F916 AI"
+  - "GEOSITE,bing,\U0001F916 Bing"
+  - "GEOSITE,category-ai-!cn,\U0001F916 AI"
+  - "GEOSITE,github,\U0001F680 GitHub"
+  - "GEOSITE,googlefcm,\U0001F4E2 FCM"
+  - "GEOSITE,spotify,\U0001F3BB Spotify"
+  - "GEOSITE,bahamut,\U0001F4FA Bahamut"
+  - "GEOSITE,microsoft,Ⓜ️ Microsoft"
+  - "GEOSITE,steam,\U0001F3AE Game"
+  - "GEOSITE,category-games,\U0001F3AE Game"
+  - "GEOSITE,category-games@cn,\U0001F3AF DIRECT"
+  - "GEOSITE,category-game-platforms-download,\U0001F3AF DIRECT"
+  - "GEOSITE,category-public-tracker,\U0001F3AF DIRECT"
+  - "GEOSITE,google-cn,\U0001F3AF DIRECT"
+  - "GEOSITE,gfw,PROXY"
+  
+  # Domain / keyword specific rules
+  - DOMAIN-SUFFIX,dl.google.com,PROXY
+  - DOMAIN-SUFFIX,mp1.i9idc.com,DIRECT
+  - DOMAIN-SUFFIX,axiom.moulberry.com,DIRECT
+  - DOMAIN-KEYWORD,rmmc,DIRECT
+  - DOMAIN-KEYWORD,aabao,DIRECT
+  - DOMAIN-KEYWORD,onedrive,DIRECT
+  - GEOSITE,category-public-tracker,DIRECT
+  
+  # GEOIP / GEOSITE rules (grouped)
+  - "GEOIP,private,\U0001F3AF DIRECT,no-resolve"
+  - "GEOIP,cn,\U0001F3AF DIRECT,no-resolve"
+  - "GEOSITE,private,\U0001F3AF DIRECT"
+  - "GEOSITE,google-cn,\U0001F3AF DIRECT"
+  - "GEOSITE,cn,\U0001F3AF DIRECT"
+
+  - MATCH,MATCH

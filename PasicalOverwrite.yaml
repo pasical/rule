@@ -598,7 +598,7 @@ rules:
 - "GEOSITE,google,\U0001F1EC 谷歌服务"
 - "GEOSITE,spotify,\U0001F3BB Spotify"
 - "GEOSITE,bahamut,\U0001F4FA Bahamut"
-- "GEOSITE,apple,\U0001F34E 苹果服务"
+- "GEOSITE,microsoft,\U0001F34E 苹果服务"
 - GEOSITE,microsoft,Ⓜ️ 微软服务
 - "GEOSITE,steam,\U0001F3AE Steam"
 - "GEOSITE,category-speedtest,\U0001F680 测速工具"
