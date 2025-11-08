@@ -327,8 +327,8 @@ rules:
   - "GEOSITE,gfw,PROXY"
   
   # Domain / keyword specific rules
-  - DOMAIN-SUFFIX,bing.com,\U0001F916 Bing
-  - DOMAIN-SUFFIX,cn.bing.com,\U0001F916 Bing
+  - "DOMAIN-SUFFIX,bing.com,\U0001F916 Bing"
+  - "DOMAIN-SUFFIX,cn.bing.com,\U0001F916 Bing"
   - DOMAIN-SUFFIX,dl.google.com,PROXY
   - DOMAIN-SUFFIX,mp1.i9idc.com,DIRECT
   - DOMAIN-SUFFIX,axiom.moulberry.com,DIRECT
