@@ -301,7 +301,7 @@ rules:
   - DOMAIN-SUFFIX,axiom.moulberry.com,DIRECT
   - "DOMAIN-SUFFIX,bing.com,\U0001F916 Bing"
   - "DOMAIN-SUFFIX,cn.bing.com,\U0001F916 Bing"
-  - "DOMAIN-SUFFIX,onedrive.live.com,Ⓜ️ Microsoft"
+  - "DOMAIN-SUFFIX,onedrive.live.com,PROXY"
   - DOMAIN-SUFFIX,dl.google.com,PROXY
   
   - DOMAIN-KEYWORD,rmmc,DIRECT
