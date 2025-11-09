@@ -278,13 +278,6 @@ rule-providers:
     type: http
     url: https://testingcf.jsdelivr.net/gh/Aethersailor/Custom_OpenClash_Rules@main/rule/Custom_Port_Direct.yaml
     proxy: DIRECT
-  Custom_Direct:
-    behavior: classical
-    interval: 10800
-    path: "./rule_provider/Custom_Direct_Classical.yaml"
-    type: http
-    url: https://testingcf.jsdelivr.net/gh/Aethersailor/Custom_OpenClash_Rules@main/rule/Custom_Direct_Classical.yaml
-    proxy: DIRECT
   Custom_Proxy:
     behavior: classical
     interval: 10800
@@ -304,44 +297,43 @@ rules:
   - DST-PORT,53,DNS_Hijack
   - DST-PORT,853,PROXY
 
-  - "RULE-SET,Custom_Proxy,PROXY"
-  - "RULE-SET,Custom_Direct,\U0001F3AF DIRECT"
-  - "RULE-SET,Steam_CDN,\U0001F3AF DIRECT"
-  - "RULE-SET,Custom_Port_Direct,\U0001F500 Special Port"
+  - DOMAIN-SUFFIX,mp1.i9idc.com,DIRECT
+  - DOMAIN-SUFFIX,axiom.moulberry.com,DIRECT
+  - "DOMAIN-SUFFIX,bing.com,\U0001F916 Bing"
+  - "DOMAIN-SUFFIX,cn.bing.com,\U0001F916 Bing"
+  - "DOMAIN-SUFFIX,onedrive.live.com,Ⓜ️ Microsoft"
+  - DOMAIN-SUFFIX,dl.google.com,PROXY
+  
+  - DOMAIN-KEYWORD,rmmc,DIRECT
+  - DOMAIN-KEYWORD,aabao,DIRECT
+  - DOMAIN-KEYWORD,onedrive,DIRECT
 
-  # Service-specific geosite groups (preferential routing)
+  - "RULE-SET,Custom_Proxy,PROXY"
+  - "RULE-SET,Custom_Port_Direct,\U0001F500 Special Port"
+  
+  - "GEOIP,private,\U0001F3AF DIRECT,no-resolve"
+  - "GEOSITE,private,\U0001F3AF DIRECT"
+
   - "GEOSITE,openai,\U0001F916 AI"
-  - "GEOSITE,bing,\U0001F916 Bing"
   - "GEOSITE,category-ai-!cn,\U0001F916 AI"
+  - "GEOSITE,bing,\U0001F916 Bing"
   - "GEOSITE,github,\U0001F680 GitHub"
   - "GEOSITE,googlefcm,\U0001F4E2 FCM"
   - "GEOSITE,spotify,\U0001F3BB Spotify"
   - "GEOSITE,bahamut,\U0001F4FA Bahamut"
   - "GEOSITE,microsoft,Ⓜ️ Microsoft"
-  - "GEOSITE,steam,\U0001F3AE Game"
-  - "GEOSITE,category-games,\U0001F3AE Game"
+  
   - "GEOSITE,category-games@cn,\U0001F3AF DIRECT"
   - "GEOSITE,category-game-platforms-download,\U0001F3AF DIRECT"
+  - "RULE-SET,Steam_CDN,\U0001F3AF DIRECT"
+  - "GEOSITE,steam,\U0001F3AE Game"
+  - "GEOSITE,category-games,\U0001F3AE Game"
+  
   - "GEOSITE,category-public-tracker,\U0001F3AF DIRECT"
   - "GEOSITE,google-cn,\U0001F3AF DIRECT"
   - "GEOSITE,gfw,PROXY"
   
-  # Domain / keyword specific rules
-  - "DOMAIN-SUFFIX,bing.com,\U0001F916 Bing"
-  - "DOMAIN-SUFFIX,cn.bing.com,\U0001F916 Bing"
-  - DOMAIN-SUFFIX,dl.google.com,PROXY
-  - DOMAIN-SUFFIX,mp1.i9idc.com,DIRECT
-  - DOMAIN-SUFFIX,axiom.moulberry.com,DIRECT
-  - DOMAIN-KEYWORD,rmmc,DIRECT
-  - DOMAIN-KEYWORD,aabao,DIRECT
-  - DOMAIN-KEYWORD,onedrive,DIRECT
-  - GEOSITE,category-public-tracker,DIRECT
-  
-  # GEOIP / GEOSITE rules (grouped)
-  - "GEOIP,private,\U0001F3AF DIRECT,no-resolve"
-  - "GEOIP,cn,\U0001F3AF DIRECT,no-resolve"
-  - "GEOSITE,private,\U0001F3AF DIRECT"
-  - "GEOSITE,google-cn,\U0001F3AF DIRECT"
   - "GEOSITE,cn,\U0001F3AF DIRECT"
+  - "GEOIP,cn,\U0001F3AF DIRECT,no-resolve"
 
   - MATCH,MATCH
