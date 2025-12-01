@@ -323,7 +323,7 @@ rules:
   - "DOMAIN-SUFFIX,onedrive.live.com,PROXY" 
   - DOMAIN-SUFFIX,dl.google.com,PROXY
   
-  - DOMAIN-KEYWORD,rmmc,DIRECT
+  - "DOMAIN-KEYWORD,emby,⏬️ Heavy"
   - DOMAIN-KEYWORD,aabao,DIRECT
   - DOMAIN-KEYWORD,onedrive,DIRECT
 
