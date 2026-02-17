@@ -324,6 +324,7 @@ rules:
   - DOMAIN-SUFFIX,dl.google.com,PROXY
   
   - "DOMAIN-KEYWORD,emby,⏬️ Heavy"
+  - DOMAIN-KEYWORD,hicore,DIRECT
   - DOMAIN-KEYWORD,aabao,DIRECT
   - DOMAIN-KEYWORD,onedrive,DIRECT
 
