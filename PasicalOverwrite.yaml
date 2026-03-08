@@ -311,6 +311,7 @@ rules:
   - "DOMAIN-SUFFIX,cn.bing.com,\U0001F916 Bing"
   - "DOMAIN-SUFFIX,onedrive.live.com,PROXY"
   - DOMAIN-SUFFIX,dl.google.com,PROXY
+  - DOMAIN-SUFFIX,dashscope-intl.aliyuncs.com,PROXY
   
   - "DOMAIN-KEYWORD,emby,⏬️ Heavy"
   - DOMAIN-KEYWORD,aabao,DIRECT
